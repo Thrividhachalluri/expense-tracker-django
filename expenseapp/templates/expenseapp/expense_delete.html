@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+```
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Delete Expense</title>
+
+<style>
+
+    body {
+        background: #f4f6f9;
+        font-family: Arial, sans-serif;
+    }
+
+    .card {
+        width: 90%;
+        max-width: 500px;
+        margin: 100px auto;
+        background: white;
+        padding: 35px;
+        text-align: center;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    button {
+        background: #dc2626;
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 7px;
+        cursor: pointer;
+    }
+
+    a {
+        margin-left: 15px;
+        text-decoration: none;
+        color: #555;
+    }
+
+</style>
+```
+
+</head>
+
+<body>
+
+<div class="card">
+
+```
+<h2>🗑️ Delete Expense</h2>
+
+<p>
+    Are you sure you want to delete
+    <strong>{{ expense.title }}</strong>?
+</p>
+
+<form method="POST">
+
+    {% csrf_token %}
+
+    <button type="submit">
+        Yes, Delete
+    </button>
+
+    <a href="{% url 'expense_list' %}">
+        Cancel
+    </a>
+
+</form>
+```
+
+</div>
+
+</body>
+
+</html>

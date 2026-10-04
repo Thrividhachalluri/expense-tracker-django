@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Expense Tracker</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #333;
+        }
+
+        .header {
+            background: #1f2937;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        .header p {
+            margin-top: 8px;
+            color: #d1d5db;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 35px auto;
+        }
+
+        /* TOP SECTION */
+
+        .top-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .top-section h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .add-btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 13px 20px;
+            border-radius: 8px;
+            font-size: 15px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .add-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* TOTAL CARD */
+
+        .total-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+        }
+
+        .total-card p {
+            margin: 0;
+            color: #6b7280;
+            font-size: 15px;
+        }
+
+        .total-card h2 {
+            margin: 8px 0 0;
+            font-size: 30px;
+        }
+
+        /* TABLE */
+
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f3f4f6;
+            padding: 15px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        td {
+            padding: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        tr:hover {
+            background: #fafafa;
+        }
+
+        .category {
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 13px;
+        }
+
+        /* ACTION BUTTONS */
+
+        .edit-btn {
+            color: #2563eb;
+            text-decoration: none;
+            margin-right: 12px;
+            font-weight: bold;
+        }
+
+        .delete-btn {
+            color: #dc2626;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* MODAL */
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.55);
+
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            width: 420px;
+            max-width: 90%;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+
+            animation: popup 0.25s ease;
+        }
+
+        @keyframes popup {
+
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+        }
+
+        .close {
+            font-size: 28px;
+            cursor: pointer;
+            color: #777;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        /* FORM */
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            font-size: 14px;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        .save-btn {
+            width: 100%;
+            background: #16a34a;
+            color: white;
+            border: none;
+            padding: 13px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .save-btn:hover {
+            background: #15803d;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 700px) {
+
+            .top-section {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            table {
+                font-size: 13px;
+            }
+
+            th,
+            td {
+                padding: 10px;
+            }
+
+            .modal-content {
+                width: 95%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- HEADER -->
+
+<div class="header">
+
+    <h1>💰 Expense Tracker</h1>
+
+    <p>Track and manage your daily expenses easily</p>
+
+</div>
+
+
+<div class="container">
+
+
+    <!-- TOP SECTION -->
+
+    <div class="top-section">
+
+        <h2>My Expenses</h2>
+
+        <button class="add-btn" onclick="openModal()">
+            ➕ Add Expense
+        </button>
+
+    </div>
+
+
+    <!-- TOTAL -->
+
+    <div class="total-card">
+
+        <p>Total Expenses</p>
+
+        <h2>₹ {{ total }}</h2>
+
+    </div>
+
+
+    <!-- EXPENSE TABLE -->
+
+    <div class="table-container">
+
+        <table>
+
+            <tr>
+
+                <th>Title</th>
+
+                <th>Amount</th>
+
+                <th>Category</th>
+
+                <th>Date</th>
+
+                <th>Actions</th>
+
+            </tr>
+
+
+            {% for expense in expenses %}
+
+            <tr>
+
+                <td>
+                    {{ expense.title }}
+                </td>
+
+                <td>
+                    ₹ {{ expense.amount }}
+                </td>
+
+                <td>
+                    <span class="category">
+                        {{ expense.category }}
+                    </span>
+                </td>
+
+                <td>
+                    {{ expense.date }}
+                </td>
+
+                <td>
+
+                    <a
+                        href="{% url 'expense_edit' expense.id %}"
+                        class="edit-btn">
+                        ✏️ Edit
+                    </a>
+
+                    <a
+                        href="{% url 'expense_delete' expense.id %}"
+                        class="delete-btn">
+                        🗑️ Delete
+                    </a>
+
+                </td>
+
+            </tr>
+
+            {% empty %}
+
+            <tr>
+
+                <td colspan="5" style="text-align:center; padding:30px;">
+                    No expenses added yet.
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+
+</div>
+
+
+<!-- ADD EXPENSE MODAL -->
+
+<div id="expenseModal" class="modal">
+
+
+    <div class="modal-content">
+
+
+        <div class="modal-header">
+
+            <h2>➕ Add Expense</h2>
+
+            <span
+                class="close"
+                onclick="closeModal()">
+                &times;
+            </span>
+
+        </div>
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <div class="form-group">
+
+                <label>Title</label>
+
+                {{ form.title }}
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Amount</label>
+
+                {{ form.amount }}
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Category</label>
+
+                {{ form.category }}
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Date</label>
+
+                {{ form.date }}
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="save-btn">
+
+                💾 Save Expense
+
+            </button>
+
+
+        </form>
+
+
+    </div>
+
+</div>
+
+
+<!-- JAVASCRIPT -->
+
+<script>
+
+    function openModal() {
+
+        document.getElementById("expenseModal").style.display = "flex";
+
+    }
+
+
+    function closeModal() {
+
+        document.getElementById("expenseModal").style.display = "none";
+
+    }
+
+
+    window.onclick = function(event) {
+
+        var modal = document.getElementById("expenseModal");
+
+        if (event.target == modal) {
+
+            modal.style.display = "none";
+
+        }
+
+    }
+
+</script>
+
+
+</body>
+
+</html>
